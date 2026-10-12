@@ -1,5 +1,5 @@
 === OffloadForge - Cloud Media Offload for S3, DigitalOcean Spaces & Google Cloud ===
-Contributors: gunjanjaswal, pumamood
+Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
 Tested up to: 7.1
