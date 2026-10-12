@@ -3,7 +3,7 @@ Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -272,6 +272,11 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 
 == Changelog ==
 
+= 1.3.8 =
+* Hardened the admin screens against cross-site scripting. The messages and file details that come back from the server, test and save notices, the bulk offload and restore error lists, and the broken-file and thumbnail scan tables, are now escaped before they are shown. A media item whose title or error text happens to contain HTML can no longer have that HTML run as markup in your dashboard.
+* Nothing changes in how any of those screens look or work for normal file names; only untrusted markup is neutralised.
+* Thanks to pumamood for reporting this and sending the first fix.
+
 = 1.3.7 =
 * Fixed thumbnails going missing on WordPress 7.1, where the browser can now do the image processing itself. In that flow WordPress runs the attachment metadata filter twice, once before any thumbnail exists and again once they have all been sent up, and OffloadForge was doing its work on the first pass. It now waits for the pass that actually carries the sizes, so every thumbnail reaches your bucket.
 * Same fix closes a worse case: with "remove local files" switched on, the old behaviour deleted the original while the browser was still uploading thumbnails for it.
@@ -359,6 +364,9 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 * Custom path prefix support
 
 == Upgrade Notice ==
+
+= 1.3.8 =
+Security hardening for the admin screens. Server messages and file details are now escaped before display, so a media item whose title contains HTML can't run as markup in your dashboard. Recommended for everyone.
 
 = 1.3.7 =
 Worth updating before WordPress 7.1 lands, especially if you have "remove local files" switched on. Browser uploads could lose their thumbnails, and the original was being deleted too early.

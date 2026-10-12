@@ -192,7 +192,7 @@ jQuery(document).ready(function($) {
                                 if (errors.length > 0) {
                                     $('#bulk-restore-errors').show();
                                     errors.forEach(function(error) {
-                                        $('#restore-error-list').append('<li><strong>' + error.title + '</strong>: ' + error.error + '</li>');
+                                        $('#restore-error-list').append('<li><strong>' + escapeHtml(error.title) + '</strong>: ' + escapeHtml(error.error) + '</li>');
                                     });
                                 }
 
@@ -303,7 +303,7 @@ jQuery(document).ready(function($) {
                                 if (errors.length > 0) {
                                     $('#bulk-offload-errors').show();
                                     errors.forEach(function(error) {
-                                        $('#error-list').append('<li><strong>' + error.title + '</strong>: ' + error.error + '</li>');
+                                        $('#error-list').append('<li><strong>' + escapeHtml(error.title) + '</strong>: ' + escapeHtml(error.error) + '</li>');
                                     });
                                 }
 
@@ -381,7 +381,7 @@ jQuery(document).ready(function($) {
                                 brokenFiles = brokenFiles.concat(response.data.broken);
                                 response.data.broken.forEach(function(file) {
                                     $('#broken-files-list').append(
-                                        '<tr><td>' + file.id + '</td><td>' + file.title + '</td><td><code>' + file.error + '</code></td></tr>'
+                                        '<tr><td>' + escapeHtml(file.id) + '</td><td>' + escapeHtml(file.title) + '</td><td><code>' + escapeHtml(file.error) + '</code></td></tr>'
                                     );
                                 });
                             }
@@ -459,7 +459,7 @@ jQuery(document).ready(function($) {
                     if (fixErrors.length > 0) {
                         $('#fix-errors').show();
                         fixErrors.forEach(function(err) {
-                            $('#fix-error-list').append('<li>ID ' + err.id + ': ' + err.error + '</li>');
+                            $('#fix-error-list').append('<li>ID ' + escapeHtml(err.id) + ': ' + escapeHtml(err.error) + '</li>');
                         });
                     }
                     $button.hide();
@@ -554,7 +554,7 @@ jQuery(document).ready(function($) {
                                 brokenThumbs = brokenThumbs.concat(response.data.broken);
                                 response.data.broken.forEach(function(file) {
                                     $('#thumb-broken-files-list').append(
-                                        '<tr><td>' + file.id + '</td><td>' + file.title + '</td><td><code>' + file.missing_sizes.join(', ') + '</code></td></tr>'
+                                        '<tr><td>' + escapeHtml(file.id) + '</td><td>' + escapeHtml(file.title) + '</td><td><code>' + escapeHtml(file.missing_sizes.join(', ')) + '</code></td></tr>'
                                     );
                                 });
                             }
@@ -632,7 +632,7 @@ jQuery(document).ready(function($) {
                     if (fixErrors.length > 0) {
                         $('#thumb-fix-errors').show();
                         fixErrors.forEach(function(err) {
-                            $('#thumb-fix-error-list').append('<li>ID ' + err.id + ': ' + err.error + '</li>');
+                            $('#thumb-fix-error-list').append('<li>ID ' + escapeHtml(err.id) + ': ' + escapeHtml(err.error) + '</li>');
                         });
                     }
                     $button.hide();
