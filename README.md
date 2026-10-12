@@ -117,6 +117,10 @@ Found a bug or have an idea? Open an issue, or email me at [hello@gunjanjaswal.m
 - Email: [hello@gunjanjaswal.me](mailto:hello@gunjanjaswal.me)
 - Ko-fi: [ko-fi.com/gunjanjaswal](https://ko-fi.com/gunjanjaswal)
 
+## Credits
+
+Thanks to [pumamood](https://github.com/pumamood) for the admin-screen XSS hardening in 1.3.8 ([#1](https://github.com/gunjanjaswal/OffloadForge-Cloud-Media-Offload/pull/1)).
+
 ## License
 
 Released under the [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
