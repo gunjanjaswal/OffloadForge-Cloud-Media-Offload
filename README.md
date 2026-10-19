@@ -103,11 +103,21 @@ It moves media traffic off your web server and can serve files closer to visitor
 - WordPress 5.3 or newer
 - PHP 7.4 or newer
 
+## Companion plugin: Unique Upload Filenames
+
+If you turn on **"remove local files"**, OffloadForge deletes the local copy of each file after it reaches your bucket. That saves disk space, but it also takes away the only thing WordPress uses to keep filenames unique: its duplicate check only looks at the local uploads folder, which is now empty. So a second `photo.jpg` (or the generic `unknown.png` that a lot of AI image tools export) keeps its name and quietly overwrites the first one on your bucket. The symptom is confusing: one post suddenly shows another post's image.
+
+[**Unique Upload Filenames**](https://github.com/gunjanjaswal/Wordpress-Unique-Upload) is a tiny, free companion plugin that closes this gap. It gives every new upload a short unique suffix before the file is written, so two uploads can never land on the same path. It is zero-config and leaves existing files untouched. Recommended for any OffloadForge site running with "remove local files" enabled.
+
 ## Support
 
-If OffloadForge saves you some bandwidth, you can [buy me a coffee on Ko-fi](https://ko-fi.com/gunjanjaswal). It genuinely helps.
+Need a hand? Here is where to reach me:
 
-Found a bug or have an idea? Open an issue, or email me at [hello@gunjanjaswal.me](mailto:hello@gunjanjaswal.me).
+- **WordPress.org support forum:** [the plugin's support page](https://wordpress.org/support/plugin/g33ki-cloud-storage-for-media-library/)
+- **Bugs and ideas:** open an [issue on GitHub](https://github.com/gunjanjaswal/OffloadForge-Cloud-Media-Offload/issues)
+- **Email:** [hello@gunjanjaswal.me](mailto:hello@gunjanjaswal.me)
+
+If OffloadForge saves you some bandwidth, you can [buy me a coffee on Ko-fi](https://ko-fi.com/gunjanjaswal). It genuinely helps.
 
 ## Author
 

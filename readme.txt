@@ -3,7 +3,7 @@ Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -195,6 +195,12 @@ Existing media files are not automatically migrated. Use the **Bulk Offload** to
 
 Yes! Enable the "Remove Local Files" option in settings. Files will be automatically deleted from your server after successful upload to cloud storage.
 
+= I enabled Remove Local Files. How do I stop same-name uploads from overwriting each other? =
+
+When the local copy is deleted after offload, WordPress can no longer catch duplicate filenames, because its built-in check only looks at the local uploads folder. A second file with the same name (for example the generic unknown.png that many AI image tools export) can then keep its name and overwrite the first one on your bucket, which leaves one post showing another post's image.
+
+A small free companion plugin, Unique Upload Filenames, closes this gap. It gives every new upload a unique name before the file is saved, is zero-config, and never touches your existing files. Recommended whenever Remove Local Files is on. Get it here: https://github.com/gunjanjaswal/Wordpress-Unique-Upload
+
 = Will this work with my CDN (CloudFront, etc.)? =
 
 Absolutely! Enter your CDN URL (CloudFront, KeyCDN, BunnyCDN, etc.) in the "CDN URL" field, and all media will be served through your CDN.
@@ -255,9 +261,10 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 
 = How do I get support? =
 
-* Visit the WordPress.org support forum
-* Contact the developer: hello@gunjanjaswal.me
-* Report bugs on [GitHub](https://github.com/gunjanjaswal/OffloadForge-Cloud-Media-Offload)
+* WordPress.org support forum: https://wordpress.org/support/plugin/g33ki-cloud-storage-for-media-library/
+* Report a bug or request a feature on GitHub: https://github.com/gunjanjaswal/OffloadForge-Cloud-Media-Offload/issues
+* Email the developer: hello@gunjanjaswal.me
+* If the plugin helps you, you can support development on Ko-fi: https://ko-fi.com/gunjanjaswal
 
 == Screenshots ==
 
@@ -271,6 +278,10 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 8. Plugin action links — quick access to settings and support
 
 == Changelog ==
+
+= 1.3.9 =
+* Added a tip under the "Remove Local Files" setting, and a matching FAQ and support note, recommending the free companion plugin Unique Upload Filenames. When the local copy is deleted after offload, WordPress can no longer catch duplicate filenames, so two same-name uploads can overwrite each other on the bucket; the companion plugin gives every upload a unique name to prevent that.
+* Rounded out the support links (WordPress.org forum, GitHub issues, email).
 
 = 1.3.8 =
 * Hardened the admin screens against cross-site scripting. The messages and file details that come back from the server, test and save notices, the bulk offload and restore error lists, and the broken-file and thumbnail scan tables, are now escaped before they are shown. A media item whose title or error text happens to contain HTML can no longer have that HTML run as markup in your dashboard.

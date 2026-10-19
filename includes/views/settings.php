@@ -119,6 +119,18 @@ $g33ki_provider = isset($g33ki_settings['provider']) ? $g33ki_settings['provider
                             <span><?php esc_html_e('Automatically remove files from server after successful cloud upload', 'g33ki-cloud-storage-for-media-library'); ?></span>
                         </label>
                         <p class="description" style="margin-top: 0.75rem;"><?php esc_html_e('⚠️ Warning: Files will only exist in cloud storage. Ensure backups are in place.', 'g33ki-cloud-storage-for-media-library'); ?></p>
+                        <p class="description" style="margin-top: 0.5rem;">
+                            <?php
+                            printf(
+                                wp_kses(
+                                    /* translators: %s: link to the Unique Upload Filenames companion plugin */
+                                    __('💡 Tip: with this on, two uploads that share a filename can overwrite each other on your bucket. The free %s companion plugin gives every upload a unique name so that cannot happen.', 'g33ki-cloud-storage-for-media-library'),
+                                    array('a' => array('href' => array(), 'target' => array(), 'rel' => array()))
+                                ),
+                                '<a href="https://github.com/gunjanjaswal/Wordpress-Unique-Upload" target="_blank" rel="noopener noreferrer">Unique Upload Filenames</a>'
+                            );
+                            ?>
+                        </p>
                     </td>
                 </tr>
             </table>

@@ -3,7 +3,7 @@
  * Plugin Name: OffloadForge - Cloud Media Offload for S3, DigitalOcean Spaces & Google Cloud
  * Plugin URI: https://github.com/gunjanjaswal/OffloadForge-Cloud-Media-Offload
  * Description: Offload your WordPress media library to Amazon S3, DigitalOcean Spaces, or Google Cloud Storage for CDN delivery. Not affiliated with Amazon, DigitalOcean, or Google.
- * Version: 1.3.8
+ * Version: 1.3.9
  * Author: Gunjan Jaswal
  * Author URI: https://gunjanjaswal.me
  * Requires at least: 5.3
