@@ -115,6 +115,15 @@ class G33ki_Cloud_Storage_For_Media_Library {
         
         add_submenu_page(
             'g33ki-cloud-storage-for-media-library',
+            __('Status', 'g33ki-cloud-storage-for-media-library'),
+            __('Status', 'g33ki-cloud-storage-for-media-library'),
+            'manage_options',
+            'g33ki-status',
+            array($this, 'render_status_page')
+        );
+
+        add_submenu_page(
+            'g33ki-cloud-storage-for-media-library',
             __('Bulk Offload', 'g33ki-cloud-storage-for-media-library'),
             __('Bulk Offload', 'g33ki-cloud-storage-for-media-library'),
             'manage_options',
@@ -330,6 +339,90 @@ class G33ki_Cloud_Storage_For_Media_Library {
             }
             return "https://{$bucket}.s3.{$region}.amazonaws.com/";
         }
+    }
+
+    /**
+     * Render the offload status overview page.
+     */
+    public function render_status_page() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        $total_q = new WP_Query( array(
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+        ) );
+        $total = (int) $total_q->found_posts;
+
+        $off_q = new WP_Query( array(
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Admin-only status count.
+            'meta_query'     => array(
+                array(
+                    'key'     => 'g33ki_remote_url',
+                    'compare' => 'EXISTS',
+                ),
+            ),
+        ) );
+        $offloaded = (int) $off_q->found_posts;
+        $remaining = max( 0, $total - $offloaded );
+        $pct       = $total > 0 ? (int) round( ( $offloaded / $total ) * 100 ) : 0;
+
+        $provider_key = $this->settings->get_option( 'provider' );
+        $labels       = array(
+            's3'     => 'Amazon S3',
+            'spaces' => 'DigitalOcean Spaces',
+            'gcs'    => 'Google Cloud Storage',
+        );
+        if ( isset( $labels[ $provider_key ] ) ) {
+            $provider = $labels[ $provider_key ];
+        } elseif ( $provider_key ) {
+            $provider = $provider_key;
+        } else {
+            $provider = __( 'Not configured', 'g33ki-cloud-storage-for-media-library' );
+        }
+        $remove_local = ! empty( $this->settings->get_option( 'remove_local_files' ) );
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e( 'OffloadForge Status', 'g33ki-cloud-storage-for-media-library' ); ?></h1>
+
+            <h2 style="font-size:42px;margin:10px 0 4px;"><?php echo esc_html( $pct ); ?>%
+                <span style="font-size:15px;color:#646970;font-weight:400;"><?php esc_html_e( 'of your media is offloaded', 'g33ki-cloud-storage-for-media-library' ); ?></span>
+            </h2>
+            <div style="background:#e2e4e7;border-radius:10px;height:18px;max-width:600px;overflow:hidden;margin:8px 0 24px;">
+                <div style="background:linear-gradient(90deg,#2271b1,#135e96);height:100%;width:<?php echo esc_attr( $pct ); ?>%;"></div>
+            </div>
+
+            <table class="widefat striped" style="max-width:600px;">
+                <tbody>
+                    <tr><td><strong><?php esc_html_e( 'Total media files', 'g33ki-cloud-storage-for-media-library' ); ?></strong></td><td><?php echo esc_html( number_format_i18n( $total ) ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Offloaded to cloud', 'g33ki-cloud-storage-for-media-library' ); ?></strong></td><td><?php echo esc_html( number_format_i18n( $offloaded ) ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Still local only', 'g33ki-cloud-storage-for-media-library' ); ?></strong></td><td><?php echo esc_html( number_format_i18n( $remaining ) ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Storage provider', 'g33ki-cloud-storage-for-media-library' ); ?></strong></td><td><?php echo esc_html( $provider ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Delete local after offload', 'g33ki-cloud-storage-for-media-library' ); ?></strong></td><td><?php echo $remove_local ? esc_html__( 'On', 'g33ki-cloud-storage-for-media-library' ) : esc_html__( 'Off', 'g33ki-cloud-storage-for-media-library' ); ?></td></tr>
+                </tbody>
+            </table>
+
+            <?php if ( $remaining > 0 ) : ?>
+                <p style="margin-top:20px;">
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=g33ki-bulk-offload' ) ); ?>" class="button button-primary">
+                        <?php
+                        /* translators: %s: number of remaining files. */
+                        echo esc_html( sprintf( __( 'Offload the remaining %s', 'g33ki-cloud-storage-for-media-library' ), number_format_i18n( $remaining ) ) );
+                        ?>
+                    </a>
+                </p>
+            <?php else : ?>
+                <p style="margin-top:20px;"><strong><?php esc_html_e( 'Everything is offloaded. Nice and tidy.', 'g33ki-cloud-storage-for-media-library' ); ?></strong></p>
+            <?php endif; ?>
+        </div>
+        <?php
     }
 
     /**

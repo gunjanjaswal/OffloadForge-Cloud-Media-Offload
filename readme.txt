@@ -3,7 +3,7 @@ Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 1.3.9
+Stable tag: 1.4.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -279,6 +279,9 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 
 == Changelog ==
 
+= 1.4.0 =
+* New: a Status screen that shows how much of your media library is offloaded at a glance, with a progress bar, counts of offloaded versus local-only files, your active provider, and a shortcut to offload whatever is left.
+
 = 1.3.9 =
 * Added a tip under the "Remove Local Files" setting, and a matching FAQ and support note, recommending the free companion plugin Unique Upload Filenames. When the local copy is deleted after offload, WordPress can no longer catch duplicate filenames, so two same-name uploads can overwrite each other on the bucket; the companion plugin gives every upload a unique name to prevent that.
 * Rounded out the support links (WordPress.org forum, GitHub issues, email).
@@ -375,6 +378,9 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 * Custom path prefix support
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Adds a Status screen showing how much of your media is offloaded, with a progress bar and counts at a glance.
 
 = 1.3.8 =
 Security hardening for the admin screens. Server messages and file details are now escaped before display, so a media item whose title contains HTML can't run as markup in your dashboard. Recommended for everyone.
