@@ -2,8 +2,8 @@
 Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
-Tested up to: 7.1
-Stable tag: 1.4.0
+Tested up to: 7.1.4
+Stable tag: 1.4.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -278,6 +278,9 @@ Yes! All credentials are stored securely in your WordPress database. Data is tra
 8. Plugin action links — quick access to settings and support
 
 == Changelog ==
+
+= 1.4.1 =
+* Tested and confirmed compatible with WordPress 7.1.4.
 
 = 1.4.0 =
 * New: a Status screen that shows how much of your media library is offloaded at a glance, with a progress bar, counts of offloaded versus local-only files, your active provider, and a shortcut to offload whatever is left.
