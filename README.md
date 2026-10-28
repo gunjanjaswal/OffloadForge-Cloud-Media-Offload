@@ -111,6 +111,8 @@ If you turn on **"remove local files"**, OffloadForge deletes the local copy of 
 
 ## Changelog
 
+The full changelog lives in [`readme.txt`](readme.txt). Recent releases:
+
 ### 1.4.1
 - Tested and confirmed compatible with WordPress 7.1.4.
 
@@ -130,87 +132,6 @@ If you turn on **"remove local files"**, OffloadForge deletes the local copy of 
 - Fixed thumbnails going missing on WordPress 7.1, where the browser can now do the image processing itself. In that flow WordPress runs the attachment metadata filter twice, once before any thumbnail exists and again once they have all been sent up, and OffloadForge was doing its work on the first pass. It now waits for the pass that actually carries the sizes, so every thumbnail reaches your bucket.
 - Same fix closes a worse case: with "remove local files" switched on, the old behaviour deleted the original while the browser was still uploading thumbnails for it.
 - Nothing changes for uploads that WordPress processes on the server, including anything added by WP-CLI or another plugin.
-
-### 1.3.6
-- Added a safety warning for when your media lives only in the cloud. If you turned on "remove local files" and offloaded, deactivating the plugin would break those URLs, so the plugin now watches for that state and warns you before it bites.
-- The warning shows on every admin screen (including the plugin's own pages) and has a close button, so you can dismiss it once you've read it.
-- It also appears as a highlighted note pinned right under OffloadForge on the Plugins page, where deactivation actually happens, so the risk is hard to miss. Both spots link straight to Restore Local so you can pull files back first.
-
-### 1.3.5
-- Fixed a PHP "Array to string conversion" warning triggered when an image was requested by explicit width/height dimensions (an array size) instead of a named size. The attachment-image-src filter now guards the per-size meta lookup, so array sizes cleanly fall back to the full-size cloud URL. No change for named sizes.
-- Removed the lightning emoji from the admin menu label so the sidebar shows a single cloud icon (the emoji rendered like a duplicate icon next to the dashicon).
-
-### 1.3.4
-- Updated the plugin's GitHub links (Plugin URI and the bug-report link) to the current repository. No functional change.
-
-### 1.3.3
-- Renamed the plugin to "OffloadForge - Cloud Media Offload for S3, DigitalOcean Spaces & Google Cloud". The title now leads with the distinctive OffloadForge brand. The slug (`g33ki-cloud-storage-for-media-library`), the `g33ki_settings` option, and all stored data are unchanged, so this updates in place with no reconfiguration. Admin menu, settings heading, and docs follow the new name.
-
-### 1.3.2
-- Renamed the plugin to "G33ki Cloud Media Offload for S3, DigitalOcean Spaces & Google Cloud" so the title leads with the distinctive g33ki brand and places the provider names after "for". The slug (`g33ki-cloud-storage-for-media-library`), the `g33ki_settings` option, and all stored data are unchanged, so this updates in place with no reconfiguration.
-- Added a clear statement that the plugin is an independent integration and is not affiliated with Amazon, DigitalOcean, or Google.
-- Rewrote the description to drop comparative and promotional wording and to remove SEO/ranking claims the plugin cannot guarantee.
-- Expanded the External Services section to state that the plugin connects only to the provider, bucket, and region you configure with your own credentials, and sends nothing to the author.
-- Security hardening: provider classes are now resolved through an explicit allowlist (`G33KI_Provider_Base::class_for()`) instead of being built from the stored provider value, so a class name can never be constructed from request-supplied data.
-- Fixed the internal `G33KI_VERSION` constant, which still read 1.3.0.
-
-### 1.3.1
-- Fix: corrected the declared minimum WordPress version. The plugin calls `wp_create_image_subsizes()` when regenerating a missing thumbnail, which needs WordPress 5.3, while the headers claimed support back to 5.0. The call was already wrapped in a `function_exists()` guard so nothing ever fatalled — on 5.0-5.2 the regeneration simply, and silently, did nothing. The headers now state 5.3 so the requirement is honest and the official Plugin Check passes cleanly.
-
-### 1.3.0
-- Renamed the plugin display title to "Cloud Storage For Media Library — S3, DigitalOcean Spaces & Google Cloud" for clarity in search and listings. The plugin slug, settings (`g33ki_settings`), and all stored data are unchanged — this is a display-only rebrand and updates safely with no reconfiguration required.
-- Cleaned up provider labels on the admin screen (removed the redundant brand suffix).
-
-### 1.2.4
-- WordPress 7.0 Connectors API integration: registers Amazon S3, DigitalOcean Spaces, and Google Cloud Storage as `cloud_storage` connectors on the `wp_connectors_init` action. Each connector links to this plugin's settings page for credential management.
-- The plugin's settings array (`g33ki_settings`) stores multiple credentials per provider (access_key, secret_key, bucket, region). The Connectors API's `api_key` method handles a single setting value, so connectors are registered with `method: none` and the credentials_url points back to this plugin's settings screen. Full multi-field central management will land once core supports it (or after a future option refactor).
-- Added `g33ki_register_connectors` action so third-party code can register richer connectors against the same providers.
-
-### 1.2.3
-- Updated "Tested up to" to WordPress 7.0.
-- Bumped minimum PHP requirement to 7.4 (WordPress 7.0 dropped support for PHP 7.2 and 7.3).
-- Added "Support on Ko-fi" (https://ko-fi.com/gunjanjaswal) and "Contact Developer" links to plugin row meta on the Plugins screen.
-- Added `Requires at least`, `Tested up to`, and `Requires PHP` headers to the main plugin file.
-
-### 1.2.2
-- Rebranding: Renamed to G33ki Cloud Storage For Media Library
-- SEO: Improved description for better search visibility on "offload media library" and "move media to cloud" keywords
-- Cleanup: Removed Buy Me a Coffee links
-
-### 1.2.1
-- Fix: Removed inline script tag from fix-urls.php template to adhere to WP enqueuing guidelines
-- Fix: Replaced ob_start() full-page buffering with wp_template_enhancement_output_buffer
-- Docs: Added External Services declaration block to document S3/DO/GCS usage
-
-### 1.2.0
-- New: Full-page output buffer URL rewriting — catches theme-hardcoded image URLs in headers, footers, and templates
-- New: Handles http/https URL variations and relative /wp-content/uploads/ paths
-- New: Filters for post_thumbnail_html, widget_text, custom_logo, wp_get_attachment_image, header_image_tag
-- Fix: Images in theme templates not rewriting for non-logged-in users
-
-### 1.1.0
-- New: Fix Permissions tool — scan and repair 403 AccessDenied cloud files
-- New: Fix Thumbnails tool — find and upload missing thumbnail sizes to cloud
-- New: Fix URLs tool — bulk-update stale URLs after CDN/bucket/region changes
-- New: Auto-retry on connection timeouts (up to 5 retries per batch)
-- New: Smart re-link — detects existing cloud files and skips re-upload
-- New: Set public-read ACL when re-linking existing cloud files
-- Fix: Bulk offload offset logic causing premature "completed" status
-- Fix: Batch size reduced to avoid Cloudflare 524 timeout errors
-- Fix: Success message no longer persists after page reload
-
-### 1.0.0
-- Initial release
-- Support for Amazon S3, DigitalOcean Spaces, and Google Cloud Storage
-- No external SDK dependencies — uses built-in HTTP API with request signing
-- Automatic upload synchronization for new media
-- Bulk offload tool for existing media with batch processing
-- CDN integration support (CloudFront, custom domains)
-- Built-in connection testing
-- Optional local file removal after cloud upload
-- Restore local files tool — download cloud media back to server
-- Deactivation safety warning when local files are missing
-- Custom path prefix support
 
 ## Support
 
