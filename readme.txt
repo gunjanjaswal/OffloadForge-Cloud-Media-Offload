@@ -2,7 +2,7 @@
 Contributors: gunjanjaswal
 Tags: offload media, cloud storage, s3, digitalocean spaces, cdn
 Requires at least: 5.3
-Tested up to: 7.1.4
+Tested up to: 7.1.5
 Stable tag: 1.4.1
 Requires PHP: 7.4
 License: GPLv2 or later
